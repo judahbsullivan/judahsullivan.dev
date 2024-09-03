@@ -1,0 +1,18 @@
+{
+  "extends": "astro/tsconfigs/strict",
+  "compilerOptions": {
+    "verbatimModuleSyntax": true,
+    "downlevelIteration": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/layouts/*": ["src/layouts/*"],
+      "@/styles/*": ["src/styles/*"],
+      "@/utils/*": ["src/utils/*"],
+      "@/globals/*": ["src/components/globals/*"],
+      "@/ui/*": ["src/components/ui/*"],
+      "@/directus/*": ["src/directus/*"],
+      "@/barba/*": ["src/lib/barba/*"],
+      "@/tailwind/*": ["src/lib/tailwind/*"]
+    }
+  }
+}

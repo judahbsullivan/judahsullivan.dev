@@ -1,0 +1,20 @@
+---
+import { db } from "@/utils/env";
+import { Image } from "astro:assets";
+
+interface DirectusImageProps {
+  alt: string;
+  image: string;
+}
+
+const { image, alt, ...props } = Astro.props as DirectusImageProps;
+---
+
+<Image
+  src={`${db}assets/${image}`}
+  loading={"lazy"}
+  alt={`${alt || ""}`}
+  inferSize
+  quality={100}
+  {...props}
+/>

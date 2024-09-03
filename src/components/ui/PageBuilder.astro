@@ -1,0 +1,9 @@
+---
+import BlockBuilder from "./BlockBuilder.astro";
+
+const page = Astro.props;
+---
+
+<>
+  {page.blocks ? <BlockBuilder blocks={page.blocks} /> : null}
+</>

@@ -1,0 +1,48 @@
+---
+import type { HeroBlock } from "@/directus/types";
+import BlockSection from "@/layouts/BlockSection.astro";
+import ThreeDSphere from "@/ui/ThreeDSphere.astro";
+
+const props = Astro.props as HeroBlock;
+console.info("BlockHero:", props);
+---
+
+<BlockSection className=" relative px-4 bg-muted" isFullWith>
+  {
+    props.author && (
+      <div class="relative overflow-hidden h-screen w-full pt-[5rem] pb-6 flex flex-col justify-between text-balance ">
+        <div class="flex text-pretty flex-col gap-5 relative justify-between  ">
+          <h1 class=" relative text-7xl lg:text-9xl  uppercase">
+            {props.author.first_name} {props.author.last_name}
+          </h1>
+          <div class="max-w-xl w-full flex-col flex gap-2 px-4">
+            {props.description ? (
+              <p class=" text-2xl  ">{props.author.description}</p>
+            ) : null}
+            <p />
+            <a href="/contact" class="text-blue-500 capitalize">
+              Lets get in Touch
+            </a>
+          </div>
+        </div>
+        <ThreeDSphere />
+        <div class="flex flex-col md:flex-row gap-5 justify-between lg:items-center ">
+          <div class="flex gap-5">
+            {props.author.tags.map((tag) => (
+              <p class="text-lg overflow-hidden flex gap-1  relative">
+                <span class="bg-primary scale-x-0 origin-left left-0 w-full h-full absolute " />
+                {tag}
+              </p>
+            ))}
+          </div>
+          <div class="flex flex-col gap-2">
+            <p>
+              {props.author.title} @ {props.author.company}
+            </p>
+            <p> Currently Based: {props.author.location}</p>
+          </div>
+        </div>
+      </div>
+    )
+  }
+</BlockSection>

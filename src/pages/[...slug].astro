@@ -1,0 +1,98 @@
+---
+import { readItems } from "@directus/sdk";
+import PageBuilder from "@/ui/PageBuilder.astro";
+import Project from "@/ui/Project.astro";
+import Article from "@/ui/Article.astro";
+import { directusClient } from "../directus";
+import Main from "@/layouts/Main.astro";
+
+export async function getStaticPaths() {
+  const pages = await directusClient.request(
+    readItems("pages", {
+      fields: [
+        "*",
+        {
+          blocks: [
+            "id",
+            "collection",
+            {
+              item: [
+                "*",
+                {
+                  list_articles: ["*"],
+                  list_projects: ["*"],
+                  author: [
+                    "title",
+                    "description",
+                    "first_name",
+                    "last_name",
+                    "location",
+                    "company",
+                    "tags",
+                    "avatar",
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    }),
+  );
+
+  const paths = pages.map((page) => {
+    const slug = page.slug ? page?.slug?.split("/").join("/") : "" || undefined;
+    return {
+      params: { slug: slug },
+      props: page,
+    };
+  });
+
+  const articles = await directusClient.request(
+    readItems("articles", {
+      fields: [
+        "*",
+        {
+          author: ["first_name", "title", "last_name", "location"],
+        },
+      ],
+      sort: ["sort", "-date_created"], //Sort by sort field and creation date descending
+    }),
+  );
+
+  const projects = await directusClient.request(
+    readItems("projects", {
+      fields: [
+        "*",
+        {
+          author: ["first_name", "last_name", "location"],
+        },
+      ],
+      sort: ["sort", "-date_created"], //Sort by sort field and creation date descending
+    }),
+  );
+
+  const articlePaths = articles.map((article) => ({
+    params: { slug: `blog/${article.slug}` },
+    props: article,
+  }));
+  const projectPaths = projects.map((project) => ({
+    params: { slug: `projects/${project.slug}` },
+    props: project,
+  }));
+
+  return [...paths, ...articlePaths, ...projectPaths];
+}
+
+const props = Astro.props;
+
+const articleSlug = Astro.url.pathname.startsWith(`/blog/`);
+const projectSlug = Astro.url.pathname.startsWith(`/projects/`);
+const isPage = !articleSlug === !projectSlug;
+---
+
+<Main title={props.title}>
+  {isPage ? <PageBuilder {...props} /> : null}
+  {projectSlug ? <Project {...props} /> : null}
+  {articleSlug ? <Article {...props} /> : null}
+</Main>

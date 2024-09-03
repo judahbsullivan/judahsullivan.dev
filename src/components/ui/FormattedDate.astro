@@ -1,0 +1,31 @@
+---
+interface Props {
+  publishedAt: string;
+  updatedAt: string;
+}
+
+const { publishedAt, updatedAt } = Astro.props;
+
+const myDate = new Date(
+  updatedAt && updatedAt > publishedAt ? updatedAt : publishedAt,
+);
+
+const date = myDate.toLocaleDateString(undefined, {
+  year: "numeric",
+  month: "short",
+  day: "numeric",
+});
+
+const time = myDate.toLocaleTimeString(undefined, {
+  hour: "2-digit",
+  minute: "2-digit",
+});
+---
+
+<div class="flex gap-1 items-center font-thin">
+  <time datetime={myDate.toISOString()}>{date}</time>
+  <span aria-hidden="true"> | </span>
+  <span class="sr-only">&nbsp;at&nbsp;</span>
+  <span class="text-nowrap">{time}</span>
+</div>
+

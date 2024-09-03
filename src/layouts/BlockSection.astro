@@ -1,0 +1,20 @@
+---
+import { tw } from "@/utils/tw";
+
+interface Props {
+  isFullWith?: boolean;
+  className?: string;
+}
+
+const { isFullWith, className } = Astro.props;
+---
+
+<section
+  class={tw(
+    "  min-h-screen w-full mx-auto",
+    { " px-4 lg:max-w-screen-xl xl:max-w-screen-2xl": !isFullWith },
+    className,
+  )}
+>
+  <slot />
+</section>

@@ -1,0 +1,56 @@
+---
+import FormattedDate from "./FormattedDate.astro";
+import DirectusImage from "./DirectusImage.astro";
+import type { Projects } from "@/directus/types";
+
+const project = Astro.props as Projects;
+---
+
+<div class="flex flex-col text-center items-center justify-center px-4">
+  <h1
+    class="text-[180px] font-extrabold uppercase tracking-tight leading-[.87]"
+  >
+    {project.title}
+  </h1>
+
+  <div class="flex gap-1">
+    {
+      project.tags
+        ? project.tags.map((tag) => (
+            <div class="bg-foreground text-background px-2 py-1 rounded">
+              {tag}
+            </div>
+          ))
+        : null
+    }
+  </div>
+  {
+    project.date_created && project.date_updated ? (
+      <FormattedDate
+        publishedAt={project.date_created}
+        updatedAt={project.date_updated}
+      />
+    ) : null
+  }
+  {
+    project.cover_image && project.cover_image ? (
+      <DirectusImage
+        class="aspect-video w-full max-w-7xl mx-auto  inset-0 overflow-hidden rounded-md"
+        image={project.cover_image}
+      />
+    ) : null
+  }
+  <p>{project.description}</p>
+
+  {
+    project.author ? (
+      <div class="flex gap-1.5 items-center">
+        <p>
+          {project.author?.first_name}
+          {project.author?.last_name}
+        </p>
+        -<p>{project.author?.location}</p>
+      </div>
+    ) : null
+  }
+</div>

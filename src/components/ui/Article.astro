@@ -1,0 +1,46 @@
+---
+import FormattedDate from "./FormattedDate.astro";
+import DirectusImage from "./DirectusImage.astro";
+import type { Articles } from "@/directus/types";
+
+const article = Astro.props as Articles;
+---
+
+<div class="flex flex-col text-center items-center justify-center px-4">
+  <h1
+    class="text-[180px] font-extrabold uppercase tracking-tight leading-[.87]"
+  >
+    {article.title}
+  </h1>
+  <div class="flex gap-2 items-center"></div>
+  {
+    article.date_created && article.date_updated ? (
+      <FormattedDate
+        publishedAt={article.date_created}
+        updatedAt={article.date_updated}
+      />
+    ) : null
+  }
+
+  {
+    article.cover_image && article.cover_image ? (
+      <DirectusImage
+        class="aspect-video w-full max-w-7xl mx-auto  inset-0 overflow-hidden rounded-md"
+        image={article.cover_image}
+      />
+    ) : null
+  }
+  <p>{article.description}</p>
+
+  {
+    article.author ? (
+      <div class="flex gap-1.5 items-center">
+        <p>
+          {article.author?.first_name}
+          {article.author?.last_name}
+        </p>
+        -<p>{article.author?.location}</p>
+      </div>
+    ) : null
+  }
+</div>

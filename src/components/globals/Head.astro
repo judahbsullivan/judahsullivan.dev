@@ -1,0 +1,19 @@
+---
+import "@/styles/globals.css";
+import "@fontsource/aileron/100.css";
+import "@fontsource/aileron/400.css";
+import "@fontsource/aileron/700.css";
+
+interface Props {
+  title?: string;
+}
+
+const cannonicalUrl = Astro.url.href;
+const { title } = Astro.props;
+console.log(cannonicalUrl);
+---
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  {title ? <title>{title} - Judah Sullivan</title> : null}
+</head>

@@ -1,0 +1,45 @@
+---
+import type { Blocks } from "@/directus/types";
+import BlockHero from "../blocks/BlockHero.astro";
+import Card from "./card.astro";
+
+interface Props {
+  blocks: Blocks[];
+}
+
+const { blocks } = Astro.props as Props;
+---
+
+<>
+  {
+    blocks.map((block) => {
+      if (!block.collection) {
+        console.error(`Block ${block.collection} not found:`, block.collection);
+        return null;
+      }
+
+      if (
+        block.collection === "block_articles_list" &&
+        block.item.list_articles
+      ) {
+        return <Card props={block.item.list_articles} />;
+      }
+
+      if (
+        block.collection === "block_projects_list" &&
+        block.item.list_projects
+      ) {
+        return <Card props={block.item.list_projects} />;
+      }
+
+      // if (block.collection === "block_hero" && block.item.hero_block) {
+      //   return <div>{block.item.block_hero.title}</div>;
+      // }
+      if (block.collection === "block_hero" && block.item) {
+        return <BlockHero {...block.item} />;
+      }
+
+      return null;
+    })
+  }
+</>
