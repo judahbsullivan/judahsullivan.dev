@@ -2,15 +2,13 @@
 import Navigation from "@/globals/Navigation.astro";
 import Body from "./Body.astro";
 import Footer from "@/globals/Footer.astro";
-import { tw } from "@/utils/tw";
 
 interface MainProps {
   title?: string;
   description?: string;
-  className?: string;
 }
 
-const { title, description, className } = Astro.props as MainProps;
+const { title, description } = Astro.props as MainProps;
 ---
 
 <Body title={title}>
@@ -19,6 +17,6 @@ const { title, description, className } = Astro.props as MainProps;
     <main data-barba="container" data-barba-namespace={title}>
       <slot />
     </main>
-    <Footer />
   </div>
+  <Footer />
 </Body>

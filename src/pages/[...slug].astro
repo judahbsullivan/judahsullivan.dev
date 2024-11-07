@@ -1,98 +1,32 @@
 ---
-import { readItems } from "@directus/sdk";
-import PageBuilder from "@/ui/PageBuilder.astro";
-import Project from "@/ui/Project.astro";
-import Article from "@/ui/Article.astro";
-import { directusClient } from "../directus";
 import Main from "@/layouts/Main.astro";
 
 export async function getStaticPaths() {
-  const pages = await directusClient.request(
-    readItems("pages", {
-      fields: [
-        "*",
-        {
-          blocks: [
-            "id",
-            "collection",
-            {
-              item: [
-                "*",
-                {
-                  list_articles: ["*"],
-                  list_projects: ["*"],
-                  author: [
-                    "title",
-                    "description",
-                    "first_name",
-                    "last_name",
-                    "location",
-                    "company",
-                    "tags",
-                    "avatar",
-                  ],
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    }),
-  );
+  const pages = [
+    { slug: "", title: "Home", content: "Home page content" },
+    { slug: "about", title: "About", content: "About page content" },
+    { slug: "contact", title: "Contact", content: "Contact page content" },
+    { slug: "projects", title: "Projects", content: "Projects page content" },
+    { slug: "blog", title: "Blog", content: "Blog page content" },
+  ];
 
   const paths = pages.map((page) => {
-    const slug = page.slug ? page?.slug?.split("/").join("/") : "" || undefined;
+    const slug = page.slug ? page?.slug?.split("/").join("/") : undefined;
     return {
       params: { slug: slug },
       props: page,
     };
   });
 
-  const articles = await directusClient.request(
-    readItems("articles", {
-      fields: [
-        "*",
-        {
-          author: ["first_name", "title", "last_name", "location"],
-        },
-      ],
-      sort: ["sort", "-date_created"], //Sort by sort field and creation date descending
-    }),
-  );
-
-  const projects = await directusClient.request(
-    readItems("projects", {
-      fields: [
-        "*",
-        {
-          author: ["first_name", "last_name", "location"],
-        },
-      ],
-      sort: ["sort", "-date_created"], //Sort by sort field and creation date descending
-    }),
-  );
-
-  const articlePaths = articles.map((article) => ({
-    params: { slug: `blog/${article.slug}` },
-    props: article,
-  }));
-  const projectPaths = projects.map((project) => ({
-    params: { slug: `projects/${project.slug}` },
-    props: project,
-  }));
-
-  return [...paths, ...articlePaths, ...projectPaths];
+  return paths;
 }
 
 const props = Astro.props;
-
-const articleSlug = Astro.url.pathname.startsWith(`/blog/`);
-const projectSlug = Astro.url.pathname.startsWith(`/projects/`);
-const isPage = !articleSlug === !projectSlug;
 ---
 
 <Main title={props.title}>
-  {isPage ? <PageBuilder {...props} /> : null}
-  {projectSlug ? <Project {...props} /> : null}
-  {articleSlug ? <Article {...props} /> : null}
+  <div class="min-h-screen justify-center w-full flex flex-col items-center">
+    <h1 class="text-9xl uppercase">{props.title}</h1>
+    <p>{props.content}</p>
+  </div>
 </Main>

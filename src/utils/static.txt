@@ -1,0 +1,83 @@
+ const pages = await directusClient.request(
+    readItems("pages", {
+      fields: [
+        "*",
+        {
+          blocks: [
+            "id",
+            "collection",
+            {
+              item: [
+                "*",
+                {
+                  list_articles: ["*"],
+                  list_projects: ["*"],
+                  author: [
+                    "title",
+                    "description",
+                    "first_name",
+                    "last_name",
+                    "location",
+                    "company",
+                    "tags",
+                    "avatar",
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    }),
+  );
+
+  const paths = pages.map((page) => {
+    const slug = page.slug ? page?.slug?.split("/").join("/")  || undefined;
+    return {
+      params: { slug: slug },
+      props: page,
+    };
+  });
+
+  const articles = await directusClient.request(
+    readItems("articles", {
+      fields: [
+        "*",
+        {
+          author: ["first_name", "title", "last_name", "location"],
+        },
+      ],
+      sort: ["sort", "-date_created"], //Sort by sort field and creation date descending
+    }),
+  );
+
+  const projects = await directusClient.request(
+    readItems("projects", {
+      fields: [
+        "*",
+        {
+          author: ["first_name", "last_name", "location"],
+        },
+      ],
+      sort: ["sort", "-date_created"], //Sort by sort field and creation date descending
+    }),
+  );
+
+  const articlePaths = articles.map((article) => ({
+    params: { slug: `blog/${article.slug}` },
+    props: article,
+  }));
+  const projectPaths = projects.map((project) => ({
+    params: { slug: `projects/${project.slug}` },
+    props: project,
+  }));
+
+  return [...paths, ...articlePaths, ...projectPaths];
+}
+
+const props = Astro.props;
+
+const articleSlug = Astro.url.pathname.startsWith(`/blog/`);
+const projectSlug = Astro.url.pathname.startsWith(`/projects/`);
+const isPage = !articleSlug === !projectSlug;
+

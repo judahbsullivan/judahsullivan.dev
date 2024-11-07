@@ -13,6 +13,11 @@
       "@/directus/*": ["src/directus/*"],
       "@/barba/*": ["src/lib/barba/*"],
       "@/tailwind/*": ["src/lib/tailwind/*"]
-    }
+    },
+    "plugins": [
+      {
+        "name": "@astrojs/ts-plugin"
+      }
+    ]
   }
 }
