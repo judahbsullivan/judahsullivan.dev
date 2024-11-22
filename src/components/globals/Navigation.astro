@@ -1,5 +1,4 @@
 ---
-import Menu from "@/ui/Menu.astro";
 const links = [
   {
     name: "about",
@@ -24,7 +23,7 @@ const links = [
   <div class="flex h-full justify-between w-full items-center">
     <a href="/"> judahsullivan.dev </a>
     <!-- <Menu /> -->
-    <nav class="capitalize">
+    <nav class="hidden md:block capitalize">
       {
         links.map((link) => (
           <a href={link.link} class="mx-2">

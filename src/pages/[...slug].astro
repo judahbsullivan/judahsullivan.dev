@@ -1,17 +1,12 @@
 ---
 import Main from "@/layouts/Main.astro";
+import { getPagesBySlug } from "../directus";
 
 export async function getStaticPaths() {
-  const pages = [
-    { slug: "", title: "Home", content: "Home page content" },
-    { slug: "about", title: "About", content: "About page content" },
-    { slug: "contact", title: "Contact", content: "Contact page content" },
-    { slug: "projects", title: "Projects", content: "Projects page content" },
-    { slug: "blog", title: "Blog", content: "Blog page content" },
-  ];
-
+  const pages = await getPagesBySlug();
   const paths = pages.map((page) => {
-    const slug = page.slug ? page?.slug?.split("/").join("/") : undefined;
+    // @ts-expect-error Typings should include this
+    const slug = page.slug ? page?.slug.split("/").join("/") : undefined;
     return {
       params: { slug: slug },
       props: page,
@@ -24,9 +19,9 @@ export async function getStaticPaths() {
 const props = Astro.props;
 ---
 
-<Main title={props.title}>
-  <div class="min-h-screen justify-center w-full flex flex-col items-center">
-    <h1 class="text-9xl uppercase">{props.title}</h1>
-    <p>{props.content}</p>
+<Main title={props.title} description={props.description}>
+  <div class="min-h-screen w-full justify-between px-4 flex flex-col">
+    <h1 class="text-[14vw] leading-[.8] pt-24 uppercase">{props.title}</h1>
+    <p class="text-lg max-w-lg">{props.description}</p>
   </div>
 </Main>
