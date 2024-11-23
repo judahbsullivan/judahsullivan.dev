@@ -1,9 +1,17 @@
 ---
 import Main from "@/layouts/Main.astro";
 import { getPagesBySlug } from "../directus";
+import { getProjectBySlug } from "../directus/projects.ts";
+import { getPostBySlug } from "../directus/posts.ts";
+import Project from "@/ui/Project.astro";
+import Article from "@/ui/Article.astro";
+import PageBuilder from "@/ui/PageBuilder.astro";
 
 export async function getStaticPaths() {
   const pages = await getPagesBySlug();
+  const projects = await getProjectBySlug();
+  const articles = await getPostBySlug();
+
   const paths = pages.map((page) => {
     // @ts-expect-error Typings should include this
     const slug = page.slug ? page?.slug.split("/").join("/") : undefined;
@@ -13,15 +21,29 @@ export async function getStaticPaths() {
     };
   });
 
-  return paths;
+  const articlePaths = articles.map((article) => ({
+    params: { slug: `blog/${article.slug}` },
+    props: article,
+  }));
+  const projectPaths = projects.map((project) => ({
+    params: { slug: `projects/${project.slug}` },
+    props: project,
+  }));
+  return [...paths, ...articlePaths, ...projectPaths];
 }
 
 const props = Astro.props;
+const articleSlug = Astro.url.pathname.startsWith(`/blog/`);
+const projectSlug = Astro.url.pathname.startsWith(`/projects/`);
+const isPage = !articleSlug === !projectSlug;
 ---
 
-<Main title={props.title} description={props.description}>
-  <div class="min-h-screen w-full justify-between px-4 flex flex-col">
-    <h1 class="text-[14vw] leading-[.8] pt-24 uppercase">{props.title}</h1>
-    <p class="text-lg max-w-lg">{props.description}</p>
-  </div>
+<Main
+  title={props.title}
+  description={props.description}
+  className=" relative h-screen py-10 px-4 mx-auto  w-full flex flex-col items-center justify-between"
+>
+  {isPage ? <PageBuilder {...props} /> : null}
+  {projectSlug ? <Project {...props} /> : null}
+  {articleSlug ? <Article {...props} /> : null}
 </Main>

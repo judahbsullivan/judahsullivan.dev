@@ -3,6 +3,7 @@ import "@/styles/globals.css";
 import "@fontsource/aileron/100.css";
 import "@fontsource/aileron/400.css";
 import "@fontsource/aileron/700.css";
+import "@fontsource/aileron/800.css";
 
 interface Props {
   title?: string;
@@ -10,7 +11,7 @@ interface Props {
 
 const cannonicalUrl = Astro.url.href;
 const { title } = Astro.props;
-console.log(cannonicalUrl);
+console.log("This is Cannonical URL:", cannonicalUrl);
 ---
 
 <head>

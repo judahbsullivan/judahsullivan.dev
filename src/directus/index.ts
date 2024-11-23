@@ -10,9 +10,10 @@ export async function getPagesBySlug() {
   const pages = await directusClient.request(
     // @ts-expect-error Typings should include this
     readItems("pages", {
-      fields: ["*"],
+      fields: ["*.*", {
+        blocks: ["*.*"],
+      }],
     }),
   );
-  console.log(pages);
   return pages;
 }

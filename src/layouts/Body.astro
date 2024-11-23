@@ -1,14 +1,11 @@
 ---
-import Head from "@/globals/Head.astro"
-import AdminEditor from "@/globals/AdminEditor.astro";
+import Meta from "@/globals/meta/Meta.astro";
 
-const {title} = Astro.props;
+const { title } = Astro.props;
 ---
 
-
-
 <html lang="en">
-  <Head title={title}/>
+  <Meta title={title} />
   <body class="relative">
     <!-- <AdminEditor /> -->
     <slot />

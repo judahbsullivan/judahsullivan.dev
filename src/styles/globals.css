@@ -6,7 +6,7 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
+    --background: 210 40% 96.1%;
     --foreground: 222.2 84% 4.9%;
     --card: 0 0% 100%;
     --card-foreground: 222.2 84% 4.9%;
@@ -18,7 +18,7 @@
     --secondary-foreground: 222.2 47.4% 11.2%;
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96.1%;
+    --accent: 221.2 83.2% 53.3%;
     --accent-foreground: 222.2 47.4% 11.2%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
@@ -69,12 +69,12 @@
   }
 
   body {
-    @apply bg-background text-foreground font-aileron;
+    @apply bg-background text-foreground font-medium font-aileron;
   }
 
-  h1,
-  h2 {
-    @apply font-grotesque;
+
+  p {
+    @apply font-medium;
   }
 }
 
@@ -86,62 +86,4 @@
   .font-grotesque {
     font-family: 'Basement Grotesque', sans-serif;
   }
-}
-
-
-
-/* Heading Font */
-@font-face {
-  font-family: 'Basement Grotesque';
-  src: url('/fonts/basementgrotesque/BasementGrotesque.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
-}
-
-
-/*Subheading and Body Font*/
-
-/* aileron-latin-100-normal */
-@font-face {
-  font-family: 'Aileron';
-  font-style: normal;
-  font-display: swap;
-  font-weight: 100;
-  src: url(@fontsource/aileron/files/aileron-latin-100-normal.woff2) format('woff2'), url(@fontsource/aileron/files/aileron-latin-100-normal.woff) format('woff');
-}
-
-/* aileron-latin-300-normal */
-@font-face {
-  font-family: 'Aileron';
-  font-style: normal;
-  font-display: swap;
-  font-weight: 300;
-  src: url(@fontsource/aileron/files/aileron-latin-300-normal.woff2) format('woff2'), url(@fontsource/aileron/files/aileron-latin-300-normal.woff) format('woff');
-}
-
-/* aileron-latin-400-normal */
-@font-face {
-  font-family: 'Aileron';
-  font-style: normal;
-  font-display: swap;
-  font-weight: 400;
-  src: url(@fontsource/aileron/files/aileron-latin-400-normal.woff2) format('woff2'), url(@fontsource/aileron/files/aileron-latin-400-normal.woff) format('woff');
-}
-
-/* aileron-latin-600-normal */
-@font-face {
-  font-family: 'Aileron';
-  font-style: normal;
-  font-display: swap;
-  font-weight: 600;
-  src: url(@fontsource/aileron/files/aileron-latin-600-normal.woff2) format('woff2'), url(@fontsource/aileron/files/aileron-latin-600-normal.woff) format('woff');
-}
-
-/* aileron-latin-700-normal */
-@font-face {
-  font-family: 'Aileron';
-  font-style: normal;
-  font-display: swap;
-  font-weight: 700;
-  src: url(@fontsource/aileron/files/aileron-latin-700-normal.woff2) format('woff2'), url(@fontsource/aileron/files/aileron-latin-700-normal.woff) format('woff');
 }

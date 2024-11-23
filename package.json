@@ -19,6 +19,7 @@
     "@fontsource/aileron": "^5.1.0",
     "@types/gsap": "^3.0.0",
     "astro": "4.16.14",
+    "class-variance-authority": "^0.7.0",
     "gsap": "^3.12.5",
     "gsap-trial": "^3.12.5",
     "prettier": "^3.3.3",
